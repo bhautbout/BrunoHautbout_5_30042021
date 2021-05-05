@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://kit.fontawesome.com/54d70528e3.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="css/style.css" />
+    <title>Votre panier</title>
+</head>
+<body>
+    <div class="bg-info">
+        <div class="container-fluid">
+            <div class="row">
+                <nav class="col navbar navbar-expand-lg navbar-dark">
+                    <img src="/images/logo.png" alt="logo Orinoco">
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarContent">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div id="navbarContent" class="collapse navbar-collapse">
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link" href="index.html">Accueil</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Produits</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">A propos</a>
+                        </li>
+                        <li class="nav-item active">
+                            <a href="#" class="nav-link">
+                            <i class="fas fa-shopping-cart"></i></a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+        <div class="container-expand">
+            <div class="row">
+                <div class="col">
+                    <div class="jumbotron text-center">
+                        <h1 class="VotrePannier">Votre Panier</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container-fluid mb-4 text-center">
+        </div>
+        <div class="row">
+            <div class="col-4">
+                <div class="card">
+                    <img class="card-img-top" src="/images/oak_1.jpg" alt="...">
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="card">
+                    <div class="card-body">
+                        <h2 class="card-title NomProduit">Nom du Produit1</h2>
+                        <h3 class="card-text DescriptionProduit">Description :</h3>
+                        <h5 class="card-text Vernis">Vernis :</h5>
+                        <h6 class="card-text Quantite">Quantité :</h6>
+                    </div>
+                </div>
+                <div class="card mt-4">
+                    <div class="card-body">
+                        <h2 class="card-title">Renseignez vos coordonnées</h2>
+                        <div class="form-group">
+                            <label for="nom">Nom : </label>
+                            <input type="text" class="form-control" id="nom" name="nom" placeholder="Votre nom">
+                        </div>
+                        <div class="form-group">
+                            <label for="prenom">Prénom : </label>
+                            <input type="text" class="form-control" id="prenom" name="prenom" placeholder="Votre prénom">
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email : </label>
+                            <input type="email" class="form-control" id="email" name="email" placeholder="Votre e-mail">
+                        </div>
+                        <button type="submit" class="btn btn-primary">Passer commande</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-2">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-text Prix">Prix Unitaire :</h4>
+                        <h4 class="cart-text PrixTotal">Prix Total</h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -8,12 +8,12 @@
     <link rel="stylesheet" href="css/style.css" />
     <title>Orinoco</title>
 </head>
-<body>
+<body onload="listeproduits()">
     <div class="bg-info">
-        <div class="container">
+        <div class="container-fluid">
             <div class="row">
                 <nav class="col navbar navbar-expand-lg navbar-dark">
-                    <img src="/images/logo.png" alt="logo Orinoco">
+                    <img src="/backend/images/logo.png" alt="logo Orinoco">
                     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarContent">
                         <span class="navbar-toggler-icon"></span>
                     </button>
@@ -22,7 +22,7 @@
                         <li class="nav-item active">
                             <a class="nav-link" href="index.html">Accueil</a>
                         </li>
-                        <li class="nav-item active">
+                        <li class="nav-item">
                             <a class="nav-link" href="#">Produits</a>
                         </li>
                         <li class="nav-item">
@@ -38,7 +38,6 @@
         </div>
     </div>
 </div>
-    <div class="containeur">
         <div class="row">
             <div class="col">
                 <div class="jumbotron text-center">
@@ -47,53 +46,7 @@
                 </div>
             </div>
         </div>
-        <div class="row">
-            <div class="col">
-                <div class="card">
-                    <img class="card-img-top" src="/images/oak_1.jpg" alt="...">
-                        <div class="card-body">
-                            <h2 class="card-title NomProduit">Nom du Produit1</h2>
-                            <h3 class="card-text DescriptionProduit">Description1</h3>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col">
-                <div class="card mt-4">
-                    <img class="card-img-top" src="/images/oak_2.jpg" alt="...">
-                    <div class="card-body">
-                        <h2 class="card-title NomProduit">Nom du Produit2</h2>
-                        <h3 class="card-text DescriptionProduit">Description2</h3>
-                    </div>
-                </div>
-            </div>
-            <div class="col">
-                <div class="card mt-4">
-                    <img class="card-img-top" src="/images/oak_3.jpg" alt="...">
-                    <div class="card-body">
-                        <h2 class="card-title NomProduit">Nom du Produit3</h2>
-                        <h3 class="card-text DescriptionProduit">Description3</h3>
-                    </div>
-                </div>
-            </div>
-            <div class="col">
-                <div class="card mt-4">
-                    <img class="card-img-top" src="/images/oak_4.jpg" alt="...">
-                    <div class="card-body">
-                        <h2 class="card-title NomProduit">Nom du Produit4</h2>
-                        <h3 class="card-text DescriptionProduit">Description4</h3>
-                    </div>
-                </div>
-            </div>
-            <div class="col">
-                <div class="card mt-4">
-                    <img class="card-img-top" src="/images/oak_5.jpg" alt="...">
-                    <div class="card-body">
-                        <h2 class="card-title NomProduit">Nom du Produit5</h2>
-                        <h3 class="card-text DescriptionProduit">Description5</h3>
-                    </div>
-                </div>
-            </div>
+        <div class="row" id="listeproduit">
         </div>
         <div class="bg-dark">
             <div class="container">
@@ -110,5 +63,6 @@
               </div>
             </div>
           </div>
+          <script src="script.js"></script>
 </body>
 </html>
