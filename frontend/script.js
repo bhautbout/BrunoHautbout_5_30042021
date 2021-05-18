@@ -6,6 +6,7 @@ function listeproduits() {
         for (const produit of data) {
             document.getElementById("listeproduit").innerHTML += `
             <div class="col-4">
+            <a href="detail-produit.html?id=${produit._id}">
             <div class="card">
                 <img class="card-img-top" src="${produit.imageUrl}" alt="${produit.name}">
             </div>
@@ -14,9 +15,9 @@ function listeproduits() {
             <div class="card">
                 <div class="card-body">
                     <h2 class="card-title">${produit.name}</h2>
-                    <h4 class="card-text">${produit.price} euros</h4>
+                    <h4 class="card-text">${produit.price / 100} €</h4>
                 </div>
-            </div>
+            </div></a>
         </div>`;
 
         }
