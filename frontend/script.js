@@ -87,3 +87,37 @@ function ajoutPanier() {
     localStorage.setItem("panier", strPanier);
 
 }
+
+
+function afficherProduitPanier() {
+
+    let produitPanier = localStorage.getItem("panier");
+    let produitPanierJson = JSON.parse(produitPanier);
+
+    let tableau = document.getElementById('tableau').innerHTML += `
+                    <thead class="bg-info">
+                        <tr>
+                        <th>Nom</th>
+                        <th>Id produit</th>
+                        <th>Quantité</th>
+                        <th>Prix</th>
+                        <th></th>
+                        </tr>
+                     </thead> `
+
+    for(var elementTableau in produitPanierJson) {
+
+        document.getElementById('tableau').innerHTML = tableau +=
+        
+                  ` <tbody>
+                    <td>${produitPanierJson[elementTableau].name}</td>
+                    <td id="productsId">${produitPanierJson[elementTableau]._id}</div></td>
+                    <td><input id="tdInputNumber" type="number" value="${produitPanierJson[elementTableau].quantite}" min="1" onchange="updateQuantity('${produitPanierJson[elementTableau]._id}', this.value)"></td>
+                    <td id="priceTotal-${produitPanierJson[elementTableau]._id}">${produitPanierJson[elementTableau].price / 100} €</td>
+                    <td><button onclick="deleteItem('${produitPanierJson[elementTableau]._id}')">&#x274C;</button></td>
+                    </tr>
+                    </tbody>
+            `
+            
+        }
+    }

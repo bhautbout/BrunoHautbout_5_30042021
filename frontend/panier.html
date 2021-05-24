@@ -8,11 +8,11 @@
     <link rel="stylesheet" href="css/style.css" />
     <title>Votre panier</title>
 </head>
-<body>
+<body onload="afficherProduitPanier()">
     <div class="bg-info">
         <div class="container-fluid">
             <div class="row">
-                <nav class="col navbar navbar-expand-lg navbar-dark">
+                <nav class="col navbar navbar-expand-lg navbar-light bg-info">
                     <img src="/backend/images/logo.png" alt="logo Orinoco">
                     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarContent">
                         <span class="navbar-toggler-icon"></span>
@@ -41,56 +41,73 @@
             <div class="row">
                 <div class="col">
                     <div class="jumbotron text-center">
-                        <h1 class="VotrePannier">Votre Panier</p>
+                        <h1 class="VotrePannier">Votre panier</p>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="container-fluid mb-4 text-center">
+        <div class="container">
+            <table id="tableau">
+                <tbody>
+                    
+                
+            </table>
         </div>
-        <div class="row">
-            <div class="col-4">
-                <div class="card">
-                    <img class="card-img-top" src="/images/oak_1.jpg" alt="...">
-                </div>
-            </div>
-            <div class="col-6">
-                <div class="card">
-                    <div class="card-body">
-                        <h2 class="card-title NomProduit">Nom du Produit1</h2>
-                        <h3 class="card-text DescriptionProduit">Description :</h3>
-                        <h5 class="card-text Vernis">Vernis :</h5>
-                        <h6 class="card-text Quantite">Quantité :</h6>
-                    </div>
-                </div>
+        <div class="container">
+            <div class="row">
                 <div class="card mt-4">
                     <div class="card-body">
                         <h2 class="card-title">Renseignez vos coordonnées</h2>
                         <div class="form-group">
-                            <label for="nom">Nom : </label>
+                            <label for="nom">Quel est votre nom ? : </label>
                             <input type="text" class="form-control" id="nom" name="nom" placeholder="Votre nom">
                         </div>
                         <div class="form-group">
-                            <label for="prenom">Prénom : </label>
-                            <input type="text" class="form-control" id="prenom" name="prenom" placeholder="Votre prénom">
+                            <label for="prenom">Quel est votre prénom ? : </label>
+                            <input type="text" class="form-control" id="prenom" name="prenom" placeholder="Votre prenom">
                         </div>
                         <div class="form-group">
-                            <label for="email">Email : </label>
-                            <input type="email" class="form-control" id="email" name="email" placeholder="Votre e-mail">
+                            <label for="adresse">Quel est votre adresse ? :</label>
+                            <input type="text" class="form-control" id="adresse" name="adresse" placeholder="Votre adresse">
                         </div>
-                        <button type="submit" class="btn btn-primary">Passer commande</button>
-                    </div>
-                </div>
-            </div>
-            <div class="col-2">
-                <div class="card">
-                    <div class="card-body">
-                        <h4 class="card-text Prix">Prix Unitaire :</h4>
-                        <h4 class="cart-text PrixTotal">Prix Total</h4>
+                        <div class="form-group">
+                            <label for="ville">Quel est votre ville ? :</label>
+                            <input type="text" class="form-control" id="ville" name="ville" placeholder="Votre ville">
+                        </div>
+                        <div class="form-group">
+                            <label for="codepostal"> Quel est votre code postal ? :</label>
+                            <input type="text" class="form-control" id="codepostal" name="codepostal" placeholder="Votre code postal">
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Quel est votre e-mail ? : </label>
+                            <input type="email" class="form-control" id="email" name="email" placeholder="Votre e-mail">
+                            <div class="form-group mt-4 text-center">
+                                <button type="submit" class="btn btn-primary">Je passe commande</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+    </div>
+    <div class="bg-info">
+        <div class="container">
+          <div class="row">
+            <div class="col">
+              <ul class="list-inline text-center">
+                <li class="list-inline-item"><a href="#">Conditions générales</a></li>
+                <li class="list-inline-item">&middot;</li>
+                <li class="list-inline-item"><a href="#">Mentions légales</a></li>
+                <li class="list-inline-item">&middot;</li>
+                <li class="list-inline-item"><a href="#">Charte de protection des données</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="script.js"></script>
+</div>
 </body>
 </html>
