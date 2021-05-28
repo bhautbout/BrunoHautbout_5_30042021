@@ -74,6 +74,7 @@ function afficheDetail() {
         
     })
 }
+//------------Fonction qui ajoute les produits dans le panier---------------//
 function ajoutPanier() {
     panier.push({
         _id:        produit._id,
@@ -82,42 +83,88 @@ function ajoutPanier() {
         quantite:   document.getElementById("quantite").value,
         vernis:     document.getElementById("vernis").value
     });
-    console.log(panier);
     const strPanier = JSON.stringify(panier);
     localStorage.setItem("panier", strPanier);
 
 }
+//---------------Déclaration de la variable qui recoit les elements du panier-----//
+let produitDansPanier = JSON.parse(localStorage.getItem("panier"));
+console.log(produitDansPanier);
+//-------------Selection de la id ou j'injecte le code html----------//
+const affichePanier = document.querySelector("#tableau");
+console.log(affichePanier);
+//-------------si panier = vide, affichier le panier est vide------//
+if(produitDansPanier === null || produitDansPanier == 0){
+const panierNull = `
+<h2 class="panier-vide text-danger">Votre panier est vide</h2>
+`;
+document.querySelector(".panier-vide").innerHTML = panierNull;
 
-
-function afficherProduitPanier() {
-
-    let produitPanier = localStorage.getItem("panier");
-    let produitPanierJson = JSON.parse(produitPanier);
-
-    let tableau = document.getElementById('tableau').innerHTML += `
-                    <thead class="bg-info">
-                        <tr>
-                        <th>Nom</th>
-                        <th>Id produit</th>
-                        <th>Quantité</th>
-                        <th>Prix</th>
-                        <th></th>
-                        </tr>
-                     </thead> `
-
-    for(var elementTableau in produitPanierJson) {
-
-        document.getElementById('tableau').innerHTML = tableau +=
-        
-                  ` <tbody>
-                    <td>${produitPanierJson[elementTableau].name}</td>
-                    <td id="productsId">${produitPanierJson[elementTableau]._id}</div></td>
-                    <td><input id="tdInputNumber" type="number" value="${produitPanierJson[elementTableau].quantite}" min="1" onchange="updateQuantity('${produitPanierJson[elementTableau]._id}', this.value)"></td>
-                    <td id="priceTotal-${produitPanierJson[elementTableau]._id}">${produitPanierJson[elementTableau].price / 100} €</td>
-                    <td><button onclick="deleteItem('${produitPanierJson[elementTableau]._id}')">&#x274C;</button></td>
-                    </tr>
+}else {
+    //----------si le panier est rempli, afficher les produits du panier------//
+    let afficherLesProduits = [];
+    for(elementPanier = 0; elementPanier < produitDansPanier.length; elementPanier++) {
+        afficherLesProduits = afficherLesProduits +
+        `
+                    
+                    <tbody>
+                        <td>${produitDansPanier[elementPanier].name}</td>
+                        <td>${produitDansPanier[elementPanier].vernis}</td>
+                        <td>${produitDansPanier[elementPanier]._id}</td>
+                        <td>${produitDansPanier[elementPanier].quantite}</td>
+                        <td>${produitDansPanier[elementPanier].price/100} €</td>
+                        <td><button class="btn_supprimerArticle">Supprimer</button></td>
                     </tbody>
-            `
-            
-        }
+                    
+                    
+        
+        `;
     }
+    
+        if(elementPanier === produitDansPanier.length) {
+        document.querySelector("#tableau").innerHTML = afficherLesProduits;
+    }
+}
+//------------bouton supprimer----------------------//
+var supprimerArticle = document.querySelectorAll(".btn_supprimerArticle");
+console.log(supprimerArticle);
+//---création d'une variable bS (pour Bouton Supprimer), initialisée à 0)
+for(let bS =0; bS < supprimerArticle.length; bS++) {
+supprimerArticle[bS].addEventListener("click", (Event) => {
+       Event.preventDefault();
+       console.log(Event);
+        //selection de id produit qui va etre supprimer//
+let idASupprimer = produitDansPanier[bS]._id;
+produitDansPanier = produitDansPanier.filter( el => el._id !== idASupprimer);
+console.log(produitDansPanier);
+
+// stockage de la variable dans le localstorage //
+localStorage.setItem("panier", JSON.stringify(produitDansPanier));
+// message confirmation de suppression de l'article et recharchement de la page //
+alert("Le produit est supprimer");
+window.location.href = "panier.html";  
+
+})
+}
+//localStorage.setItem("panier", JSON.stringify(produitDansPanier));
+//-----------calcul du montant total du panier------------//
+let = prixTotalCalcul = []; //----declaration de la variable pour stocker les prix de chaque article---//
+//------recupérer les prix dans le panier-----//
+for (let z = 0; z < produitDansPanier.length; z++) {
+    let = prixProduitsDansLePanier = produitDansPanier[z].price;
+    //------stocker les prix du panier dans une variable----//
+    prixTotalCalcul.push(prixProduitsDansLePanier);
+    console.log(prixTotalCalcul);
+}
+//faire l'addition des prix récupéré dans le tableau précédement créé en utlisant "reduce" vue dans le MDn //
+const reducer = (accumulator, currentValue) => accumulator + currentValue;
+const pTotal = prixTotalCalcul.reduce(reducer,0);
+console.log(pTotal);
+// reste a afficher le prix total en html dans l'emplacement prevu dans le fichier panier.html
+const affichePrixTotalHtml = `
+                    <thead class="bg-info">
+                        <tr></tr>
+                        <th>Prix Total = ${pTotal/100} €</th>
+                    </thead>
+`
+document.querySelector("#prix-total").innerHTML = affichePrixTotalHtml;
