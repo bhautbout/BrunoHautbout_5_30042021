@@ -168,3 +168,41 @@ const affichePrixTotalHtml = `
                     </thead>
 `
 document.querySelector("#prix-total").innerHTML = affichePrixTotalHtml;
+
+//--------------Gestion du formulaire de commande----------//
+const afficherLeFormulaire = () => {
+    //----Appel de l'id du formulaire dans le DOM--//
+    document.querySelector("#formulaire").innerHTML +=
+    `
+                            <div class="form-group">
+                                <label for="nom">Quel est votre nom ? : </label>
+                                <input type="text" class="form-control" id="nom" name="nom" placeholder="Votre nom" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="prenom">Quel est votre prénom ? : </label>
+                                <input type="text" class="form-control" id="prenom" name="prenom" placeholder="Votre prenom" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="adresse">Quel est votre adresse ? :</label>
+                                <input type="text" class="form-control" id="adresse" name="adresse" placeholder="Votre adresse" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="ville">Quel est votre ville ? :</label>
+                                <input type="text" class="form-control" id="ville" name="ville" placeholder="Votre ville" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="codepostal"> Quel est votre code postal ? :</label>
+                                <input type="text" class="form-control" id="codepostal" name="codepostal" placeholder="Votre code postal" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="email">Quel est votre e-mail ? : </label>
+                                <input type="email" class="form-control" id="email" name="email" placeholder="Votre e-mail" required>
+                                <div class="form-group mt-4 text-center">
+                                <button type="submit" class="btn btn-primary">Je passe commande</button>
+                            </div>
+    
+                            `;
+
+}
+
+afficherLeFormulaire();
