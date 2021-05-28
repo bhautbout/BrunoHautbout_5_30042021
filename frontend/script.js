@@ -205,4 +205,34 @@ const afficherLeFormulaire = () => {
 
 }
 
-afficherLeFormulaire();
+//-------------------Validation de la commande----------------------//
+
+function validCommande() {  
+    event.preventDefault();
+    //-------------espace réservé pour les tests-----------//
+
+    var contact = {
+        firstName: document.getElementById("prenom").value,
+        lastName: document.getElementById("nom").value,
+        address: document.getElementById("adresse").value,
+        city: document.getElementById("ville").value,
+        email: document.getElementById("email").value
+    };
+    var products = []
+    for (let z = 0; z < produitDansPanier.length; z++) {
+        products.push(produitDansPanier[z]._id);
+    }
+
+    fetch("http://localhost:3000/api/furniture/order", {
+        method: "POST",
+        headers: {
+            "content-type": "application/json"
+        },
+        body: JSON.stringify({contact, products})
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log(data);
+    })
+
+}
