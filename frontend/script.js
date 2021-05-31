@@ -10,20 +10,16 @@ function listeproduits() {
         console.log(data);
         for (const produit of data) {
             document.getElementById("listeproduit").innerHTML += `
-            <div class="col-4">
-            <a href="detail-produit.html?id=${produit._id}">
-            <div class="card">
-                <img class="card-img-top" src="${produit.imageUrl}" alt="${produit.name}">
-            </div>
-        </div>
-        <div class="col-8">
-            <div class="card">
-                <div class="card-body">
-                    <h2 class="card-title">${produit.name}</h2>
-                    <h4 class="card-text">${produit.price / 100} €</h4>
-                </div>
-            </div></a>
-        </div>`;
+            <div class="col-12 col-lg-4 mb-4">
+                    <div class="card">
+                    <img class="card-img-top" src="${produit.imageUrl}" alt="${produit.name}">
+                        <div class="card-body">
+                            <h5 class="card-title">${produit.name}</h5>
+                            <p class="card-text">${produit.price / 100} €</p>
+                        </div>
+                        <a class="btn btn-secondary" href="detail-produit.html?id=${produit._id}">Détails</a>
+                    </div>
+                </div>`;
 
         }
     })
@@ -37,6 +33,12 @@ function afficheDetail() {
     .then(data => {
         console.log(data);
         produit = data;
+        //-----------Récupération des options de vernis------------//
+        let varnish = ""
+        data.varnish.forEach(element => {
+            varnish += `<option value="${element}">${element}</options>`
+        });
+        //---------------Injection du code html du détail produit dans le DOM-------------//
         document.getElementById("detailProduit").innerHTML += `
         <div class="col-6">
                 <div class="card mt-4">
@@ -50,11 +52,8 @@ function afficheDetail() {
                         <h3 class="card-text">${data.description}</h3>
                         <h4 class="card-text">Prix : ${data.price / 100} €</h4>
                         <h5 class="card-text">Choisissez votre vernis :</h5>
-                            <select class="form-control" id="vernis">
-                                <option value="${data.varnish [0]}">${data.varnish [0]}</option>
-                                <option value="${data.varnish [1]}">${data.varnish [1]}</option>
-                                <option value="${data.varnish [2]}">${data.varnish [2]}</option>
-                                <option value="${data.varnish [3]}">${data.varnish [3]}</option>
+                            <select class="form-control" name="vernis" id="vernis">
+                                `+varnish+`
                             </select>
                             <br>
                                 <h6 class="card-text">Quantité :</h6>
@@ -66,7 +65,8 @@ function afficheDetail() {
                                 <option value="5">5</option>
                             </select>
                             <br>
-                            <button class="btn btn-dark" type="button" onclick="ajoutPanier()">Ajouter au panier </button>
+                            <button class="btn btn-secondary" type="button" onclick="ajoutPanier()">Ajouter au panier </button>
+                            <a class="btn btn-success" href="index.html" role="button">Continuer mes achats</a>
 
                     </div>
                 </div>
@@ -92,7 +92,6 @@ let produitDansPanier = JSON.parse(localStorage.getItem("panier"));
 console.log(produitDansPanier);
 //-------------Selection de la id ou j'injecte le code html----------//
 const affichePanier = document.querySelector("#tableau");
-console.log(affichePanier);
 //-------------si panier = vide, affichier le panier est vide------//
 if(produitDansPanier === null || produitDansPanier == 0){
 const panierNull = `
@@ -103,6 +102,21 @@ document.querySelector(".panier-vide").innerHTML = panierNull;
 }else {
     //----------si le panier est rempli, afficher les produits du panier------//
     let afficherLesProduits = [];
+
+    document.getElementById('entete_tableau').innerHTML +=
+    `
+    <thead class="bg-info">
+        <tr>
+            <th>Nom</th>
+            <th>Vernis</th>
+            <th>Id produit</th>
+            <th>Quantité</th>
+            <th>Prix</th>
+            <th></th>
+        </tr>
+    </thead>
+    `;
+
     for(elementPanier = 0; elementPanier < produitDansPanier.length; elementPanier++) {
         afficherLesProduits = afficherLesProduits +
         `
@@ -112,7 +126,7 @@ document.querySelector(".panier-vide").innerHTML = panierNull;
                         <td>${produitDansPanier[elementPanier].vernis}</td>
                         <td>${produitDansPanier[elementPanier]._id}</td>
                         <td>${produitDansPanier[elementPanier].quantite}</td>
-                        <td>${produitDansPanier[elementPanier].price/100} €</td>
+                        <td>${produitDansPanier[elementPanier].price /100} €</td>
                         <td><button class="btn_supprimerArticle">Supprimer</button></td>
                     </tbody>
                     
@@ -161,6 +175,15 @@ const reducer = (accumulator, currentValue) => accumulator + currentValue;
 const pTotal = prixTotalCalcul.reduce(reducer,0);
 console.log(pTotal);
 // reste a afficher le prix total en html dans l'emplacement prevu dans le fichier panier.html
+if(pTotal === null || pTotal == 0){//------si le prix total est null ou egal à 0, ne pas afficher l'entete du tableau---//
+  const supprimeTableau = `
+                    
+  `
+    document.querySelector("#prix-total").innerHTML = supprimeTableau;
+    
+}else {//-----------dans le cas contraire, afficher l'entete du tableau avec le prix total----//
+
+
 const affichePrixTotalHtml = `
                     <thead class="bg-info">
                         <tr></tr>
@@ -168,41 +191,6 @@ const affichePrixTotalHtml = `
                     </thead>
 `
 document.querySelector("#prix-total").innerHTML = affichePrixTotalHtml;
-
-//--------------Gestion du formulaire de commande----------//
-const afficherLeFormulaire = () => {
-    //----Appel de l'id du formulaire dans le DOM--//
-    document.querySelector("#formulaire").innerHTML +=
-    `
-                            <div class="form-group">
-                                <label for="nom">Quel est votre nom ? : </label>
-                                <input type="text" class="form-control" id="nom" name="nom" placeholder="Votre nom" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="prenom">Quel est votre prénom ? : </label>
-                                <input type="text" class="form-control" id="prenom" name="prenom" placeholder="Votre prenom" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="adresse">Quel est votre adresse ? :</label>
-                                <input type="text" class="form-control" id="adresse" name="adresse" placeholder="Votre adresse" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="ville">Quel est votre ville ? :</label>
-                                <input type="text" class="form-control" id="ville" name="ville" placeholder="Votre ville" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="codepostal"> Quel est votre code postal ? :</label>
-                                <input type="text" class="form-control" id="codepostal" name="codepostal" placeholder="Votre code postal" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="email">Quel est votre e-mail ? : </label>
-                                <input type="email" class="form-control" id="email" name="email" placeholder="Votre e-mail" required>
-                                <div class="form-group mt-4 text-center">
-                                <button type="submit" class="btn btn-primary">Je passe commande</button>
-                            </div>
-    
-                            `;
-
 }
 
 //-------------------Validation de la commande----------------------//
@@ -210,12 +198,12 @@ const afficherLeFormulaire = () => {
 function validCommande() {  
     event.preventDefault();
     //-------------espace réservé pour les tests-----------//
-
+    if(document.forms['formulaire'] !="") {
     var contact = {
-        firstName: document.getElementById("prenom").value,
-        lastName: document.getElementById("nom").value,
-        address: document.getElementById("adresse").value,
-        city: document.getElementById("ville").value,
+        firstName: document.getElementById("firstName").value,
+        lastName: document.getElementById("lastName").value,
+        address: document.getElementById("address").value,
+        city: document.getElementById("city").value,
         email: document.getElementById("email").value
     };
     var products = []
@@ -230,9 +218,17 @@ function validCommande() {
         },
         body: JSON.stringify({contact, products})
     })
-    .then(response => response.json())
-    .then(data => {
-        console.log(data);
-    })
+        .then(response => response.json())
+        .then(response => {
+            if(response.orderId) {
+            alert(`Votre commande numéro ${response.orderId} à bien été passée.`)
+            localStorage.setItem("orderId", response.orderId)
+            localStorage.setItem("firstName", response.contact.firstName)
+            window.location.href = "/frontend/confirmation-commande.html";
+            } else{
+                alert(`Votre commande comporte une erreur`)
+            }
+    });       
+}
 
 }

@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="css/style.css" />
     <title>Votre panier</title>
 </head>
-<body onload="afficherLeFormulaire()">
+<body>
     <div class="bg-info">
         <div class="container-fluid">
             <div class="row">
@@ -21,12 +21,6 @@
                     <ul class="navbar-nav">
                         <li class="nav-item">
                             <a class="nav-link" href="index.html">Accueil</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Produits</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">A propos</a>
                         </li>
                         <li class="nav-item active">
                             <a href="#" class="nav-link">
@@ -50,17 +44,7 @@
         </div>
         <div class="container mt-4">
             <div class="row">
-                <table>
-                    <thead class="bg-info">
-                        <tr>
-                            <th>Nom</th>
-                            <th>Vernis</th>
-                            <th>Id produit</th>
-                            <th>Quantité</th>
-                            <th>Prix</th>
-                            <th></th>
-                        </tr>
-                    </thead>
+                <table id="entete_tableau">
                     <tbody id="tableau">
                     </tbody>
                 </table>
@@ -74,6 +58,67 @@
                     <div class="card-body">
                         <h2 class="card-title">Renseignez vos coordonnées</h2>
                         <form id="formulaire" onsubmit="validCommande()">
+                            <div class="form-group">
+                                <label for="firstName">Quel est votre prénom ? : </label>
+                                <input 
+                                    type="text"
+                                    class="form-control"
+                                    id="firstName"
+                                    name="firstName"
+                                    placeholder="Votre prenom"
+                                    pattern="[a-zA-Z]{1,20}"
+                                    title="1 à 20 lettres"
+                                    required>
+                            </div>
+                            <div class="form-group">
+                                <label for="lastName">Quel est votre nom ? : </label>
+                                <input 
+                                    type="text"
+                                    class="form-control"
+                                    id="lastName"
+                                    name="lastName"
+                                    placeholder="Votre nom" 
+                                    pattern="[a-zA-Z]{1,20}"
+                                    title="1 à 20 lettres"
+                                    required>
+                            </div>
+                            <div class="form-group">
+                                <label for="address">Quel est votre adresse ? :</label>
+                                <input
+                                type="text"
+                                class="form-control"
+                                id="address"
+                                name="address"
+                                placeholder="Votre adresse"
+                                pattern="[a-zA-Z0-9 ]{1,100}"
+                                title="1 à 100 lettres"
+                                required>
+                            </div>
+                            <div class="form-group">
+                                <label for="city">Quel est votre ville ? :</label>
+                                <input
+                                type="text"
+                                class="form-control"
+                                id="city"
+                                name="city"
+                                placeholder="Votre ville"
+                                pattern="[a-zA-Z]{1,10}"
+                                title="1 à 10 lettres"
+                                required>
+                            </div>
+                            <div class="form-group">
+                                <label for="email">Quel est votre e-mail ? : </label>
+                                <input
+                                type="email"
+                                class="form-control"
+                                id="email"
+                                name="email"
+                                placeholder="Votre e-mail"
+                                pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
+                                required>
+                                <div class="form-group mt-4 text-center">
+                                <button type="submit" class="btn btn-secondary">Je passe commande</button>
+                            </div>
                             
                         </form>
                     </div>
@@ -99,7 +144,7 @@
         </div>
       </div>
     </div>
-    <script src="script.js"></script>
+    <script src="/frontend/script.js"></script>
 </div>
 </body>
 </html>
