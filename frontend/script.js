@@ -3,6 +3,7 @@ var panier = [];
 const sPanier = localStorage.getItem("panier");
 if (sPanier != null ) panier = JSON.parse(sPanier);
 
+//-------------------Fonction qui permet d'afficher la liste des produits-----------------------//
 function listeproduits() {
     fetch("http://localhost:3000/api/furniture")
     .then(response => response.json())
@@ -27,17 +28,20 @@ function listeproduits() {
 function afficheDetail() {
     let params = (new URL(document.location)).searchParams;
     let id = params.get("id");
+    console.log(id);
 
     fetch(`http://localhost:3000/api/furniture/${id}`)
     .then(response => response.json())
     .then(data => {
         console.log(data);
         produit = data;
+        console.log(produit);
         //-----------Récupération des options de vernis------------//
         let varnish = ""
         data.varnish.forEach(element => {
             varnish += `<option value="${element}">${element}</options>`
         });
+        console.log(varnish);
         //---------------Injection du code html du détail produit dans le DOM-------------//
         document.getElementById("detailProduit").innerHTML += `
         <div class="col-6">
@@ -85,6 +89,7 @@ function ajoutPanier() {
     });
     const strPanier = JSON.stringify(panier);
     localStorage.setItem("panier", strPanier);
+    console.log(strPanier);
 
 }
 //---------------Déclaration de la variable qui recoit les elements du panier-----//
@@ -173,6 +178,7 @@ for (let z = 0; z < produitDansPanier.length; z++) {
 //faire l'addition des prix récupéré dans le tableau précédement créé en utlisant "reduce" vue dans le MDn //
 const reducer = (accumulator, currentValue) => accumulator + currentValue;
 const pTotal = prixTotalCalcul.reduce(reducer,0);
+
 console.log(pTotal);
 // reste a afficher le prix total en html dans l'emplacement prevu dans le fichier panier.html
 if(pTotal === null || pTotal == 0){//------si le prix total est null ou egal à 0, ne pas afficher l'entete du tableau---//
@@ -192,6 +198,8 @@ const affichePrixTotalHtml = `
 `
 document.querySelector("#prix-total").innerHTML = affichePrixTotalHtml;
 }
+//---------Enregistrement du prix total dans le localStorage------------//
+localStorage.setItem("prixTotal", JSON.stringify(pTotal));
 
 //-------------------Validation de la commande----------------------//
 
@@ -218,8 +226,10 @@ function validCommande() {
         },
         body: JSON.stringify({contact, products})
     })
+    
         .then(response => response.json())
         .then(response => {
+            console.log(response);
             if(response.orderId) {
             alert(`Votre commande numéro ${response.orderId} à bien été passée.`)
             localStorage.setItem("orderId", response.orderId)
