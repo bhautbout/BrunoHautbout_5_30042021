@@ -33,14 +33,13 @@ function afficheDetail() {
     fetch(`http://localhost:3000/api/furniture/${id}`)
     .then(response => response.json())
     .then(data => {
-        console.log(data);
         produit = data;
-        console.log(produit);
         //-----------Récupération des options de vernis------------//
         let varnish = ""
         data.varnish.forEach(element => {
             varnish += `<option value="${element}">${element}</options>`
         });
+        
         console.log(varnish);
         //---------------Injection du code html du détail produit dans le DOM-------------//
         document.getElementById("detailProduit").innerHTML += `
@@ -54,7 +53,7 @@ function afficheDetail() {
                     <div class="card-body">
                         <h2 class="card-title">${data.name}</h2>
                         <h3 class="card-text">${data.description}</h3>
-                        <h4 class="card-text">Prix : ${data.price / 100} €</h4>
+                        <h4 class="card-text">Prix : ${data.price /100} €</h4>
                         <h5 class="card-text">Choisissez votre vernis :</h5>
                             <select class="form-control" name="vernis" id="vernis">
                                 `+varnish+`
@@ -78,20 +77,25 @@ function afficheDetail() {
         
     })
 }
+
 //------------Fonction qui ajoute les produits dans le panier---------------//
+
 function ajoutPanier() {
+
     panier.push({
-        _id:        produit._id,
-        name:       produit.name,
-        price:      produit.price,
-        quantite:   document.getElementById("quantite").value,
-        vernis:     document.getElementById("vernis").value
+        _id:                produit._id,
+        name:               produit.name,
+        price:              produit.price,
+        quantite:           document.getElementById("quantite").value,
+        quantiteParArticle: produit.price * document.getElementById("quantite").value,
+        vernis:             document.getElementById("vernis").value
     });
     const strPanier = JSON.stringify(panier);
     localStorage.setItem("panier", strPanier);
     console.log(strPanier);
 
 }
+
 //---------------Déclaration de la variable qui recoit les elements du panier-----//
 let produitDansPanier = JSON.parse(localStorage.getItem("panier"));
 console.log(produitDansPanier);
@@ -116,7 +120,8 @@ document.querySelector(".panier-vide").innerHTML = panierNull;
             <th>Vernis</th>
             <th>Id produit</th>
             <th>Quantité</th>
-            <th>Prix</th>
+            <th>Prix Unitaire</th>
+            <th>Prix Total</th>
             <th></th>
         </tr>
     </thead>
@@ -131,7 +136,8 @@ document.querySelector(".panier-vide").innerHTML = panierNull;
                         <td>${produitDansPanier[elementPanier].vernis}</td>
                         <td>${produitDansPanier[elementPanier]._id}</td>
                         <td>${produitDansPanier[elementPanier].quantite}</td>
-                        <td>${produitDansPanier[elementPanier].price /100} €</td>
+                        <td>${produitDansPanier[elementPanier].price / 100} €</td>
+                        <td>${produitDansPanier[elementPanier].quantiteParArticle / 100} €</td>
                         <td><button class="btn_supprimerArticle">Supprimer</button></td>
                     </tbody>
                     
@@ -170,7 +176,7 @@ window.location.href = "panier.html";
 let = prixTotalCalcul = []; //----declaration de la variable pour stocker les prix de chaque article---//
 //------recupérer les prix dans le panier-----//
 for (let z = 0; z < produitDansPanier.length; z++) {
-    let = prixProduitsDansLePanier = produitDansPanier[z].price;
+    let = prixProduitsDansLePanier = produitDansPanier[z].quantiteParArticle;
     //------stocker les prix du panier dans une variable----//
     prixTotalCalcul.push(prixProduitsDansLePanier);
     console.log(prixTotalCalcul);
