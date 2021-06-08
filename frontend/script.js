@@ -173,9 +173,24 @@ function affichePanier() {
     for (let z = 0; z < produitDansPanier.length; z++) {
         prixTotalCalcul+= produitDansPanier[z].price * produitDansPanier[z].quantite;
     }
-    
-        document.querySelector("#prix-total").innerHTML = prixTotalCalcul / 100;
-        
+    if(prixTotalCalcul === null || prixTotalCalcul == 0){//------si le prix total est null ou egal à 0, ne pas afficher l'entete du tableau---//
+        const supprimeTableau = `
+                          
+        `
+          document.querySelector("#prix-total").innerHTML = supprimeTableau;
+      
+      }else {//-----------dans le cas contraire, afficher l'entete du tableau avec le prix total----//
+      
+      
+      const affichePrixTotalHtml = `
+                          <thead class="bg-info">
+                              <tr></tr>
+                              <th>Prix Total = ${prixTotalCalcul/100} €</th>
+                          </thead>
+      `
+      document.querySelector("#prix-total").innerHTML = affichePrixTotalHtml;
+       
+    }
     //---------Enregistrement du prix total dans le localStorage------------//
     localStorage.setItem("prixTotal", JSON.stringify(prixTotalCalcul));
     //------------bouton supprimer----------------------//
