@@ -12,12 +12,12 @@ function listeproduits() {
         produit = data;
         for (produit of data) {
             document.getElementById("listeproduit").innerHTML += `
-            <div class="col-12 col-lg-4 mb-4">
+            <div class="col-lg-6 col-md-6 mb-4">
                     <div class="card">
                     <img class="card-img-top" src="${produit.imageUrl}" alt="${produit.name}">
                         <div class="card-body">
-                            <h5 class="card-title">${produit.name}</h5>
-                            <p class="card-text">${produit.price / 100} €</p>
+                            <h3 class="card-title">${produit.name}</h3>
+                            <h4 class="card-text"><strong>${produit.price / 100} €</strong></h4>
                         </div>
                         <a class="btn btn-secondary" href="detail-produit.html?id=${produit._id}">Détails</a>
                     </div>
@@ -46,23 +46,23 @@ function afficheDetail() {
         
         //---------------Injection du code html du détail produit dans le DOM-------------//
         document.getElementById("detailProduit").innerHTML += `
-        <div class="col-6">
+        <div class="col-lg-6">
                 <div class="card mt-4">
                     <img class="card-img-top" src="${data.imageUrl}" alt="${data.name}">
                 </div>
         </div>
-        <div class="col-6">
+        <div class="col-lg-6">
                 <div class="card mt-4">
                     <div class="card-body">
                         <h2 class="card-title">${data.name}</h2>
-                        <h3 class="card-text">${data.description}</h3>
-                        <h4 class="card-text">Prix : ${data.price /100} €</h4>
-                        <h5 class="card-text">Choisissez votre vernis :</h5>
+                        <p class="card-text">${data.description}</p>
+                        <h3 class="card-text">Prix : ${data.price /100} €</h3>
+                        <h4 class="card-text">Choisissez votre vernis :</h4>
                             <select class="form-control" name="vernis" id="vernis">
                                 `+varnish+`
                             </select>
                             <br>
-                            <h6 class="card-text">Quantité :</h6>
+                            <h5 class="card-text">Quantité :</h5>
                                 <select class="form-control" id="quantite">
                                 <option value="1">1</option>
                                 <option value="2">2</option>
@@ -216,10 +216,6 @@ function affichePanier() {
     }
 }
 
-//localStorage.setItem("panier", JSON.stringify(produitDansPanier));
-
-
-
 //-------------------Validation de la commande----------------------//
 
 function validCommande() {  
@@ -259,5 +255,20 @@ function validCommande() {
             }
     });       
 }
+
 }
 
+function confirmationCommande(){
+    const afficheConfirmation = 
+
+    `
+    <div class="card-body">
+    <h2 class="card-title text-center">Commande validée</h2>
+    <p class="card-text text-center">Merci pour votre commande <strong>${localStorage.firstName}</strong></p>
+    <p class="card-text text-center">Commande n° : <strong>${localStorage.orderId}</strong> d'un montant de : <strong>${localStorage.prixTotal/100} €</strong></p>
+    </div>
+    `
+    document.getElementById('confirm').innerHTML = afficheConfirmation;
+    localStorage.clear()
+
+}
