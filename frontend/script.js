@@ -1,4 +1,5 @@
 var produit;
+//initialisation de la variable produit---//
 var panier = [];
 const sPanier = localStorage.getItem("panier");
 if (sPanier != null ) panier = JSON.parse(sPanier);
@@ -6,11 +7,11 @@ if (sPanier != null ) panier = JSON.parse(sPanier);
 //-------------------Fonction qui permet d'afficher la liste des produits-----------------------//
 function listeproduits() {
 
-    fetch("http://localhost:3000/api/furniture")
-    .then(response => response.json())
+    fetch("http://localhost:3000/api/furniture") //---Récupération des produits---//
+    .then(response => response.json()) //---conversion des données en JSON---//
     .then(data => {
         produit = data;
-        for (produit of data) {
+        for (produit of data) { //---Affichage de chaque produit de data dans le DOM---//
             document.getElementById("listeproduit").innerHTML += `
             <div class="col-lg-6 col-md-6 mb-4">
                     <div class="card">
@@ -30,11 +31,14 @@ function listeproduits() {
 function afficheDetail() {
 
     let params = (new URL(document.location)).searchParams;
+    //---Récupération de l'Url de l'objet--//
     var id = params.get("id");
-    console.log(id);
+    //---Le parametre de l'id va dans une variable--//
 
     fetch(`http://localhost:3000/api/furniture/${id}`)
+    //---Appel de l'Api avec l'id récupéré--//
     .then(response => response.json())
+    //---Transforme response en objet JSON---//
     .then(data => {
         produit = data;
         //-----------Récupération des options de vernis------------//
@@ -42,7 +46,6 @@ function afficheDetail() {
         data.varnish.forEach(element => {
             varnish += `<option value="${element}">${element}</options>`
         });
-        console.log(varnish);
         
         //---------------Injection du code html du détail produit dans le DOM-------------//
         document.getElementById("detailProduit").innerHTML += `
@@ -83,9 +86,9 @@ function afficheDetail() {
 
 //------------Fonction qui ajoute les produits dans le panier---------------//
 function ajoutPanier() {
-    console.log(produit);
     
     let exist = false;
+    //---Initialisation de la variable "exist"--//
     for(let i=0; i<panier.length; i++) {
         if(produit._id == panier[i]._id) {
             panier[i].quantite = +panier[i].quantite + (+document.getElementById("quantite").value);
@@ -93,7 +96,10 @@ function ajoutPanier() {
             break;
         }
     }
+    //---Chaque enregistrement de panier est lu pour voir si le produit que l'on ajoute existe---//
+    //---Si exist = true alors on ajoute la quantite du produit à la quantite du produit dans le panier--//
     if(exist==false) {
+    //---Si le produit que l'on veut ajouter n'existe pas, l'ajouter au panier---//
         panier.push({
             _id:                produit._id,
             name:               produit.name,
@@ -104,26 +110,25 @@ function ajoutPanier() {
         });
     }
     const strPanier = JSON.stringify(panier);
+    //---On convertit le panier en JSON---//
     localStorage.setItem("panier", strPanier);
-    console.log(strPanier);
+    //---Stockage dans le panier---//
 }
 
-    //---------------Déclaration de la variable qui recoit les elements du panier-----//
+    
 let produitDansPanier = JSON.parse(localStorage.getItem("panier"));
-    console.log(produitDansPanier);
-
+    //---------------Déclaration de la variable qui recoit les elements du panier-----//
 function affichePanier() {
+    //---fonction qui affiche les produits du panier---//
     
     
-    //-------------Selection de la id ou j'injecte le code html----------//
-    const affichePanier = document.querySelector("#tableau");
-    //-------------si panier = vide, affichier le panier est vide------//
     if(produitDansPanier === null || produitDansPanier == 0){
+    //-------------si panier = vide, affichier le panier est vide------//
     const panierNull = `
     <h2 class="panier-vide text-danger">Votre panier est vide</h2>
     `;
     document.querySelector(".panier-vide").innerHTML = panierNull;
-
+    
 
     }else {
         //----------si le panier est rempli, afficher les produits du panier------//
@@ -143,7 +148,7 @@ function affichePanier() {
             </tr>
         </thead>
         `;
-
+        //---Affichage de l'entete du tableau---//
         for(elementPanier = 0; elementPanier < produitDansPanier.length; elementPanier++) {
             afficherLesProduits = afficherLesProduits +
             `
@@ -162,24 +167,29 @@ function affichePanier() {
             
             `;
         }
-        
             if(elementPanier === produitDansPanier.length) {
             document.querySelector("#tableau").innerHTML = afficherLesProduits;
         }
     }
+    //---Affichage des elements du panier---//
+
+    let = prixTotalCalcul = 0;
     //-----------calcul du montant total du panier------------//
-    let = prixTotalCalcul = 0; //----declaration de la variable pour stocker les prix de chaque article---//
-    //------recupérer les prix dans le panier-----//
+    //----declaration de la variable pour stocker les prix de chaque article---//
     for (let z = 0; z < produitDansPanier.length; z++) {
         prixTotalCalcul+= produitDansPanier[z].price * produitDansPanier[z].quantite;
     }
-    if(prixTotalCalcul === null || prixTotalCalcul == 0){//------si le prix total est null ou egal à 0, ne pas afficher l'entete du tableau---//
+    //------recupérer les prix dans le panier-----//
+
+    if(prixTotalCalcul === null || prixTotalCalcul == 0){
+    //------si le prix total est null ou egal à 0, ne pas afficher l'entete du tableau---//
         const supprimeTableau = `
                           
         `
           document.querySelector("#prix-total").innerHTML = supprimeTableau;
       
-      }else {//-----------dans le cas contraire, afficher l'entete du tableau avec le prix total----//
+      }else {
+    //-----------dans le cas contraire, afficher l'entete du tableau avec le prix total----//
       
       
       const affichePrixTotalHtml = `
@@ -191,25 +201,29 @@ function affichePanier() {
       document.querySelector("#prix-total").innerHTML = affichePrixTotalHtml;
        
     }
-    //---------Enregistrement du prix total dans le localStorage------------//
     localStorage.setItem("prixTotal", JSON.stringify(prixTotalCalcul));
-    //------------bouton supprimer----------------------//
+    //---------Enregistrement du prix total dans le localStorage------------//
+
+    
     var supprimerArticle = document.querySelectorAll(".btn_supprimerArticle");
-    console.log(supprimerArticle);
-    //---création d'une variable bS (pour Bouton Supprimer), initialisée à 0)
+    //------------bouton supprimer----------------------//
+    
     for(let bS =0; bS < supprimerArticle.length; bS++) {
+    //---création d'une variable bS (pour Bouton Supprimer), initialisée à 0)
     supprimerArticle[bS].addEventListener("click", (Event) => {
         Event.preventDefault();
         console.log(Event);
-            //selection de id produit qui va etre supprimer//
+            
     let idASupprimer = produitDansPanier[bS]._id;
     produitDansPanier = produitDansPanier.filter( el => el._id !== idASupprimer);
-    console.log(produitDansPanier);
+    //selection de id produit qui va etre supprimer//
 
-    // stockage de la variable dans le localstorage //
+    
     localStorage.setItem("panier", JSON.stringify(produitDansPanier));
-    // message confirmation de suppression de l'article et recharchement de la page //
+    // stockage de la variable dans le localstorage //
+    
     alert("Le produit est supprimer");
+    // message confirmation de suppression de l'article et recharchement de la page //
     window.location.href = "panier.html";  
 
         })
@@ -217,12 +231,15 @@ function affichePanier() {
 }
 
 //-------------------Validation de la commande----------------------//
+//---le formulaire est validé par la méthode POST et l'envoi au serveur---//
+
 
 function validCommande() {  
     event.preventDefault();
-    //-------------espace réservé pour les tests-----------//
     if(document.forms['formulaire'] !="") {
+//---les données sont valides, on envoi le formulaire---//
     var contact = {
+//---On récupère les données du formulaire avec leur valeur---//
         firstName: document.getElementById("firstName").value,
         lastName: document.getElementById("lastName").value,
         address: document.getElementById("address").value,
@@ -233,6 +250,7 @@ function validCommande() {
     for (let z = 0; z < produitDansPanier.length; z++) {
         products.push(produitDansPanier[z]._id);
     }
+//---Les produits sont envoyés dans le panier---//
 
     fetch("http://localhost:3000/api/furniture/order", {
         method: "POST",
@@ -241,22 +259,27 @@ function validCommande() {
         },
         body: JSON.stringify({contact, products})
     })
+//---Contact et products sont transformés en JSON---//
     
         .then(response => response.json())
         .then(response => {
-            console.log(response);
             if(response.orderId) {
             alert(`Votre commande numéro ${response.orderId} à bien été passée.`)
             localStorage.setItem("orderId", response.orderId)
             localStorage.setItem("firstName", response.contact.firstName)
             window.location.href = "/frontend/confirmation-commande.html";
+//---Si la réponse est ok, la page confirmation-commande.html est appelée et affiche les références---//
             } else{
                 alert(`Votre commande comporte une erreur`)
             }
     });       
 }
+else {
+    alert("Veuillez remplir le formulaire !")
+}
 
 }
+//---Fonction pour l'affichage de la commande---//
 
 function confirmationCommande(){
     const afficheConfirmation = 
@@ -270,5 +293,6 @@ function confirmationCommande(){
     `
     document.getElementById('confirm').innerHTML = afficheConfirmation;
     localStorage.clear()
+    //---Vidage du localStorage après confirmation de la commande---//
 
 }
