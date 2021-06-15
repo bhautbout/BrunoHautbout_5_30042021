@@ -26,8 +26,11 @@ function listeproduits() {
 
         }
     })
+    .catch(error => {
+        console.warn("Erreur de chargement !", error);
+    }) 
 }
-
+//------------------Fonction qui ajout les détails du produit sélectionné----------------//
 function afficheDetail() {
 
     let params = (new URL(document.location)).searchParams;
@@ -120,7 +123,7 @@ let produitDansPanier = JSON.parse(localStorage.getItem("panier"));
     //---------------Déclaration de la variable qui recoit les elements du panier-----//
 function affichePanier() {
     //---fonction qui affiche les produits du panier---//
-    
+    console.log(panier);
     
     if(produitDansPanier === null || produitDansPanier == 0){
     //-------------si panier = vide, affichier le panier est vide------//
@@ -212,7 +215,6 @@ function affichePanier() {
     //---création d'une variable bS (pour Bouton Supprimer), initialisée à 0)
     supprimerArticle[bS].addEventListener("click", (Event) => {
         Event.preventDefault();
-        console.log(Event);
             
     let idASupprimer = produitDansPanier[bS]._id;
     produitDansPanier = produitDansPanier.filter( el => el._id !== idASupprimer);
