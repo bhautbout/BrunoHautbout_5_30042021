@@ -124,7 +124,7 @@ function ajoutPanier() {
     //---Stockage dans le panier---//
 }
 
-let produitDansPanier = JSON.parse(localStorage.getItem("panier"));
+let produitDansPanier = JSON.parse(localStorage.getItem("panier")) || [];
     //---------------Déclaration de la variable qui recoit les elements du panier-----//
 function affichePanier() {
     //---fonction qui affiche les produits du panier---//
