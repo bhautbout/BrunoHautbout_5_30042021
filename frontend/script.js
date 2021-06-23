@@ -5,7 +5,7 @@ const sPanier = localStorage.getItem("panier");
 if (sPanier != null ) panier = JSON.parse(sPanier);
 
 //-------------------Fonction qui permet d'afficher la liste des produits-----------------------//
-function listeproduits() {
+function listeProduits() {
 
     fetch("http://localhost:3000/api/furniture") //---Récupération des produits---//
     .then(response => response.json()) //---conversion des données en JSON---//
@@ -86,10 +86,8 @@ function afficheDetail() {
     
 }
 
-
 //------------Fonction qui ajoute les produits dans le panier---------------//
 function ajoutPanier() {
-    
     let exist = false;
     //---Initialisation de la variable "exist"--//
     for(let i=0; i<panier.length; i++) {
@@ -99,9 +97,12 @@ function ajoutPanier() {
             break;
         }
     }
+    
+    
     //---Chaque enregistrement de panier est lu pour voir si le produit que l'on ajoute existe---//
     //---Si exist = true alors on ajoute la quantite du produit à la quantite du produit dans le panier--//
     if(exist==false) {
+        
     //---Si le produit que l'on veut ajouter n'existe pas, l'ajouter au panier---//
         panier.push({
             _id:                produit._id,
@@ -112,18 +113,23 @@ function ajoutPanier() {
             vernis:             document.getElementById("vernis").value
         });
     }
+    
+        
+    
     const strPanier = JSON.stringify(panier);
+    
+
     //---On convertit le panier en JSON---//
     localStorage.setItem("panier", strPanier);
     //---Stockage dans le panier---//
 }
 
-    
 let produitDansPanier = JSON.parse(localStorage.getItem("panier"));
     //---------------Déclaration de la variable qui recoit les elements du panier-----//
 function affichePanier() {
     //---fonction qui affiche les produits du panier---//
-    console.log(panier);
+    
+
     
     if(produitDansPanier === null || produitDansPanier == 0){
     //-------------si panier = vide, affichier le panier est vide------//
@@ -153,6 +159,7 @@ function affichePanier() {
         `;
         //---Affichage de l'entete du tableau---//
         for(elementPanier = 0; elementPanier < produitDansPanier.length; elementPanier++) {
+            var prixTotalQuantite = produitDansPanier[elementPanier].quantite * produitDansPanier[elementPanier].price;
             afficherLesProduits = afficherLesProduits +
             `
                         
@@ -162,7 +169,7 @@ function affichePanier() {
                             <td>${produitDansPanier[elementPanier]._id}</td>
                             <td>${produitDansPanier[elementPanier].quantite}</td>
                             <td>${produitDansPanier[elementPanier].price / 100} €</td>
-                            <td>${produitDansPanier[elementPanier].quantiteParArticle / 100} €</td>
+                            <td>${prixTotalQuantite /100} €</td>
                             <td><button class="btn_supprimerArticle">Supprimer</button></td>
                         </tbody>
                         
